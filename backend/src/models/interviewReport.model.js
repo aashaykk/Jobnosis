@@ -53,13 +53,13 @@ const preparationPlanSchema = new mongoose.Schema({
         type: Number,
         required: [true, "Day is required"]
     },
-    focus:{
+    focus: {
         type: String,
         rqeuired: [true, "Focus is required"]
     },
     tasks: [{
         type: String,
-        required: [ true, "Task is required"]
+        required: [true, "Task is required"]
     }]
 }, {
     _id: false
@@ -80,8 +80,8 @@ const interviewReportSchema = new mongoose.Schema({
     },
     matchScore: {
         type: Number,
-        min:0,
-        max:100,
+        min: 0,
+        max: 100,
     },
     technicalQuestions: [technicalQuestionSchema],
     behavioralQuestions: [behavioralQuestionSchema],

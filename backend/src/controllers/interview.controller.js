@@ -3,7 +3,9 @@ const generateInterviewReport = require("../services/ai.service.js")
 const interviewReportModel = require("../models/interviewReport.model.js")
 
 async function generateInterviewReportController(req, res) {
-    const resumeFile = req.file
+    if (!req.file) {
+        return res.status(400).json({ message: "Resume file is required" })
+    }
 
     const resumeContent = await (new pdfParse.PDFParse(Uint8Array.from(req.file.buffer))).getText()
     const { selfDescription, jobDescription } = req.body

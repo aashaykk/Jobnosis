@@ -1,34 +1,106 @@
 const { GoogleGenAI } = require("@google/genai")
-const { z } = require("zod")
-const { zodToJsonSchema } = require("zod-to-json-schema")
 
 const ai = new GoogleGenAI({
     apiKey: process.env.GOOGLE_GENAI_API_KEY
 })
 
-
-const interviewReportSchema = z.object({
-    matchScore: z.number().min(0).max(100).describe("The match score between the candidate and the job description"),
-    technicalQuestions: z.array(z.object({
-        question: z.string().describe("The technical questions that can be asked in the interview"),
-        intention: z.string().describe("The intention of the interviewer behind this question"),
-        answer: z.string().describe("How to answer this question, what points to highlight, what to avoid etc...")
-    })).describe("The technical questions that can be asked in the interview along with their answers and intentions"),
-    behavioralQuestions: z.array(z.object({
-        question: z.string().describe("The behavioral questions that can be asked in the interview"),
-        intention: z.string().describe("The intention of the interviewer behind this question"),
-        answer: z.string().describe("How to answer this question, what points to highlight, what to avoid etc...")
-    })).describe("The behavioral questions that can be asked in the interview along with their answers and intentions"),
-    skillGaps: z.array(z.object({
-        skill: z.string().describe("The skill which the candidate is lacking or needs to improve"),
-        severity: z.enum(["low", "medium", "high"]).describe("The severity of the skill gap")
-    })).describe("The skills which the candidate is lacking along with their severity"),
-    preparationPlan: z.array(z.object({
-        day: z.number().describe("The day of the preparation plan"),
-        focus: z.string().describe("The focus of the preparation plan on that day"),
-        tasks: z.array(z.string().describe("The tasks to be done on that day"))
-    })).describe("The preparation plan for the interview")
-})
+const interviewReportSchema = {
+    type: "object",
+    properties: {
+        matchScore: {
+            type: "integer",
+            description: "The match score between the candidate and the job description"
+        },
+        technicalQuestions: {
+            type: "array",
+            description: "The technical questions that can be asked in the interview along with their answers and intentions",
+            items: {
+                type: "object",
+                properties: {
+                    question: {
+                        type: "string",
+                        description: "The technical questions that can be asked in the interview"
+                    },
+                    intention: {
+                        type: "string",
+                        description: "The intention of the interviewer behind this question"
+                    },
+                    answer: {
+                        type: "string",
+                        description: "How to answer this question, what points to highlight, what to avoid etc..."
+                    }
+                },
+                required: ["question", "intention", "answer"]
+            }
+        },
+        behavioralQuestions: {
+            type: "array",
+            description: "The behavioral questions that can be asked in the interview along with their answers and intentions",
+            items: {
+                type: "object",
+                properties: {
+                    question: {
+                        type: "string",
+                        description: "The behavioral questions that can be asked in the interview"
+                    },
+                    intention: {
+                        type: "string",
+                        description: "The intention of the interviewer behind this question"
+                    },
+                    answer: {
+                        type: "string",
+                        description: "How to answer this question, what points to highlight, what to avoid etc..."
+                    }
+                },
+                required: ["question", "intention", "answer"]
+            }
+        },
+        skillGaps: {
+            type: "array",
+            description: "The skills which the candidate is lacking along with their severity",
+            items: {
+                type: "object",
+                properties: {
+                    skill: {
+                        type: "string",
+                        description: "The skill which the candidate is lacking or needs to improve"
+                    },
+                    severity: {
+                        type: "string",
+                        enum: ["low", "medium", "high"],
+                        description: "The severity of the skill gap"
+                    }
+                },
+                required: ["skill", "severity"]
+            }
+        },
+        preparationPlan: {
+            type: "array",
+            description: "The preparation plan for the interview",
+            items: {
+                type: "object",
+                properties: {
+                    day: {
+                        type: "integer",
+                        description: "The day of the preparation plan"
+                    },
+                    focus: {
+                        type: "string",
+                        description: "The focus of the preparation plan on that day"
+                    },
+                    tasks: {
+                        type: "array",
+                        items: {
+                            type: "string"
+                        }
+                    }
+                },
+                required: ["day", "focus", "tasks"]
+            }
+        }
+    },
+    required: ["matchScore", "technicalQuestions", "behavioralQuestions", "skillGaps", "preparationPlan"]
+}
 
 async function generateInterviewReport({ resume, selfDescription, jobDescription }) {
 
@@ -50,7 +122,7 @@ async function generateInterviewReport({ resume, selfDescription, jobDescription
         contents: prompt,
         config: {
             responseMimeType: "application/json",
-            responseSchema: zodToJsonSchema(interviewReportSchema)
+            responseSchema: interviewReportSchema
         }
     })
 
@@ -58,6 +130,4 @@ async function generateInterviewReport({ resume, selfDescription, jobDescription
 
 }
 
-module.exports = {
-    generateInterviewReport
-}
+module.exports = generateInterviewReport

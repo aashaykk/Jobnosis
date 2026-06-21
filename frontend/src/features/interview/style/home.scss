@@ -469,4 +469,283 @@
             }
         }
     }
+
+    // Generator Form
+    .generator-form {
+        display: flex;
+        flex-direction: column;
+        gap: 1.25rem;
+        width: 100%;
+    }
+
+    // Recent Reports Section
+    .recent-reports-section {
+        margin-top: 2rem;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 1.25rem;
+        border-top: 1px solid #202230;
+        padding-top: 2rem;
+
+        .section-header {
+            text-align: left;
+            margin-bottom: 0.5rem;
+
+            h2 {
+                font-size: 1.75rem;
+                font-weight: 600;
+                color: #ffffff;
+                margin: 0 0 0.5rem 0;
+                letter-spacing: -0.02em;
+
+                i {
+                    color: #8b5cf6;
+                }
+            }
+
+            p {
+                font-size: 0.95rem;
+                color: #9ca3af;
+                margin: 0;
+            }
+        }
+
+        .reports-grid, .reports-skeleton-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.25rem;
+            width: 100%;
+        }
+
+        .report-card {
+            background-color: #11121a;
+            border: 1px solid #202230;
+            border-radius: 1rem;
+            padding: 1.25rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -1px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+
+            &::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 4px;
+                height: 100%;
+                background: transparent;
+                transition: background-color 0.25s ease;
+            }
+
+            &:hover {
+                transform: translateY(-2px);
+                border-color: #4338ca;
+                box-shadow: 0 10px 20px -5px rgba(99, 102, 241, 0.15), 0 0 15px 1px rgba(99, 102, 241, 0.05);
+
+                .arrow-icon {
+                    transform: translateX(4px);
+                    color: #dfc5f9;
+                }
+
+                &::before {
+                    background: linear-gradient(to bottom, #6366f1, #8b5cf6);
+                }
+            }
+
+            .card-content {
+                display: flex;
+                flex-direction: column;
+                gap: 0.5rem;
+                flex: 1;
+                min-width: 0;
+                text-align: left;
+
+                .report-title {
+                    font-size: 1.05rem;
+                    font-weight: 600;
+                    color: #ffffff;
+                    margin: 0;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
+
+                .report-date {
+                    font-size: 0.8rem;
+                    color: #6b7280;
+                    display: flex;
+                    align-items: center;
+                    gap: 0.35rem;
+
+                    svg {
+                        width: 13px;
+                        height: 13px;
+                        color: #4b5563;
+                    }
+                }
+            }
+
+            .card-badge-area {
+                display: flex;
+                align-items: center;
+                gap: 1rem;
+                margin-left: 1rem;
+                flex-shrink: 0;
+
+                .score-badge {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+                    padding: 0.5rem 0.75rem;
+                    border-radius: 0.75rem;
+                    min-width: 60px;
+                    border: 1px solid transparent;
+
+                    .score-val {
+                        font-size: 1.1rem;
+                        font-weight: 700;
+                        line-height: 1;
+                    }
+
+                    .score-lbl {
+                        font-size: 0.65rem;
+                        font-weight: 500;
+                        text-transform: uppercase;
+                        letter-spacing: 0.05em;
+                        margin-top: 0.15rem;
+                        opacity: 0.8;
+                    }
+
+                    &.score-high {
+                        background-color: rgba(16, 185, 129, 0.08);
+                        border-color: rgba(16, 185, 129, 0.2);
+                        color: #10b981;
+                        filter: drop-shadow(0 0 4px rgba(16, 185, 129, 0.1));
+                    }
+
+                    &.score-medium {
+                        background-color: rgba(245, 158, 11, 0.08);
+                        border-color: rgba(245, 158, 11, 0.2);
+                        color: #f59e0b;
+                        filter: drop-shadow(0 0 4px rgba(245, 158, 11, 0.1));
+                    }
+
+                    &.score-low {
+                        background-color: rgba(139, 92, 246, 0.08);
+                        border-color: rgba(139, 92, 246, 0.2);
+                        color: #8b5cf6;
+                        filter: drop-shadow(0 0 4px rgba(139, 92, 246, 0.1));
+                    }
+                }
+
+                .arrow-icon {
+                    color: #4b5563;
+                    transition: transform 0.2s ease, color 0.2s ease;
+                    display: flex;
+                    align-items: center;
+
+                    svg {
+                        width: 18px;
+                        height: 18px;
+                    }
+                }
+            }
+
+            // Skeleton Styles
+            &.skeleton {
+                cursor: default;
+                pointer-events: none;
+
+                .skeleton-line {
+                    background: linear-gradient(90deg, #161720 25%, #232535 50%, #161720 75%);
+                    background-size: 200% 100%;
+                    animation: skeleton-shimmer 1.5s infinite;
+                    border-radius: 4px;
+
+                    &.title {
+                        height: 1.1rem;
+                        width: 140px;
+                        margin-bottom: 0.5rem;
+                        background: #161720;
+                    }
+
+                    &.date {
+                        height: 0.8rem;
+                        width: 90px;
+                        background: #161720;
+                    }
+
+                    &.score {
+                        height: 38px;
+                        width: 60px;
+                        border-radius: 0.75rem;
+                        background: #161720;
+                    }
+                }
+            }
+        }
+
+        @keyframes skeleton-shimmer {
+            0% {
+                background-position: 200% 0;
+            }
+            100% {
+                background-position: -200% 0;
+            }
+        }
+
+        // Empty state
+        .empty-reports-card {
+            background-color: #11121a;
+            border: 1px dashed #202230;
+            border-radius: 1rem;
+            padding: 3rem 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
+
+            .empty-icon-wrapper {
+                background-color: rgba(99, 102, 241, 0.05);
+                border: 1px solid rgba(99, 102, 241, 0.1);
+                border-radius: 50%;
+                width: 60px;
+                height: 60px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-bottom: 1.25rem;
+
+                svg {
+                    width: 30px;
+                    height: 30px;
+                    color: #6366f1;
+                }
+            }
+
+            h4 {
+                font-size: 1.2rem;
+                font-weight: 600;
+                color: #ffffff;
+                margin: 0 0 0.5rem 0;
+            }
+
+            p {
+                font-size: 0.9rem;
+                color: #6b7280;
+                margin: 0;
+                max-width: 320px;
+                line-height: 1.5;
+            }
+        }
+    }
 }

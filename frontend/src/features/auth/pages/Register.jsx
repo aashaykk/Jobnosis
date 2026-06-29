@@ -9,17 +9,54 @@ const Register = () => {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [agree, setAgree] = useState(false)
+  const [error, setError] = useState("")
 
   const { loading, handleRegister } = useAuth()
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    setError("")
+
     if (!agree) {
-      alert("Please agree to the Terms and Privacy Policy.")
+      setError("Please agree to the Terms and Privacy Policy.")
       return
     }
-    await handleRegister({ username, email, password })
-    navigate('/')
+
+    // Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setError("Please enter a valid email address (e.g., name@domain.com).")
+      return
+    }
+
+    // Password validation
+    if (password.length < 8) {
+      setError("Password must be at least 8 characters long.")
+      return
+    }
+    if (!/[A-Z]/.test(password)) {
+      setError("Password must contain at least one uppercase letter.")
+      return
+    }
+    if (!/[a-z]/.test(password)) {
+      setError("Password must contain at least one lowercase letter.")
+      return
+    }
+    if (!/\d/.test(password)) {
+      setError("Password must contain at least one number.")
+      return
+    }
+    if (!/[@$!%*?&#]/.test(password)) {
+      setError("Password must contain at least one special character (e.g., @$!%*?&#).")
+      return
+    }
+
+    const result = await handleRegister({ username, email, password })
+    if (result && result.success) {
+      navigate('/')
+    } else {
+      setError(result?.error || "Registration failed. Please try again.")
+    }
   }
 
   if (loading) {
@@ -69,6 +106,22 @@ const Register = () => {
 
         <h1>Ready to <i>crush it</i>?</h1>
         <p className="subtitle">Sign up and start your journey today.</p>
+
+        {error && (
+          <div className="error-message" style={{
+            color: '#ef4444',
+            backgroundColor: 'rgba(239, 68, 68, 0.08)',
+            padding: '0.75rem 1rem',
+            borderRadius: '0.5rem',
+            marginBottom: '1.25rem',
+            fontSize: '0.875rem',
+            fontWeight: 500,
+            border: '1px solid rgba(239, 68, 68, 0.15)',
+            textAlign: 'center'
+          }}>
+            {error}
+          </div>
+        )}
 
         <form onSubmit={handleSubmit}>
           {/* Username input group */}

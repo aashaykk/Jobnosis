@@ -9,11 +9,17 @@ const Login = () => {
 
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const [error, setError] = useState("")
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    await handleLogin({ email, password })
-    navigate('/')
+    setError("")
+    const result = await handleLogin({ email, password })
+    if (result && result.success) {
+      navigate('/')
+    } else {
+      setError(result?.error || "Login failed. Please check your credentials.")
+    }
   }
 
   if (loading) {
@@ -61,6 +67,22 @@ const Login = () => {
 
         <h1>Ready for <i>Diagnosis?</i>?</h1>
         <p className="subtitle">Sign in and connect with your matches.</p>
+
+        {error && (
+          <div className="error-message" style={{
+            color: '#ef4444',
+            backgroundColor: 'rgba(239, 68, 68, 0.08)',
+            padding: '0.75rem 1rem',
+            borderRadius: '0.5rem',
+            marginBottom: '1.25rem',
+            fontSize: '0.875rem',
+            fontWeight: 500,
+            border: '1px solid rgba(239, 68, 68, 0.15)',
+            textAlign: 'center'
+          }}>
+            {error}
+          </div>
+        )}
 
         <form onSubmit={handleSubmit}>
           {/* Email input group */}

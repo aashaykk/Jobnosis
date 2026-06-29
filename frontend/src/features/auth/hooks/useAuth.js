@@ -12,12 +12,16 @@ export const useAuth = () => {
             const data = await login(email, password)
             if (data && data.user) {
                 setUser(data.user)
+                return { success: true }
             } else {
                 setUser(null)
+                return { success: false, error: "Invalid response from server." }
             }
         } catch (error) {
             console.error("Login failed:", error)
             setUser(null)
+            const errMsg = error.response?.data?.message || "Login failed. Please check your credentials."
+            return { success: false, error: errMsg }
         } finally {
             setLoading(false)
         }
@@ -29,12 +33,16 @@ export const useAuth = () => {
             const data = await register(username, email, password)
             if (data && data.user) {
                 setUser(data.user)
+                return { success: true }
             } else {
                 setUser(null)
+                return { success: false, error: "Invalid response from server." }
             }
         } catch (error) {
             console.error("Registration failed:", error)
             setUser(null)
+            const errMsg = error.response?.data?.message || "Registration failed. Please try again."
+            return { success: false, error: errMsg }
         } finally {
             setLoading(false)
         }

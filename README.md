@@ -1,13 +1,13 @@
-# HireFrnd 🚀
+# Jobnosis 🚀
 ### *The Intelligent AI-Powered Resume Optimizer & Interview Preparation Engine*
 
-**HireFrnd** is a full-stack, enterprise-ready career intelligence suite designed to bridge the gap between candidates and recruiters. Built with a modern architecture leveraging **React 19**, **Node.js/Express**, and **MongoDB**, it integrates the **Gemini 2.5 Flash API** to dynamically analyze, tailor, and compile professional resumes while generating comprehensive, customized interview prep guides.
+**Jobnosis** is a full-stack, enterprise-ready career intelligence suite designed to bridge the gap between candidates and recruiters. Built with a modern architecture leveraging **React 19**, **Node.js/Express**, and **MongoDB**, it integrates the **Gemini 2.5 Flash API** to dynamically analyze, tailor, and compile professional resumes while generating comprehensive, customized interview prep guides.
 
 ---
 
 ## 🛠️ System Architecture & Workflow
 
-Here is how the data flows through HireFrnd to deliver deterministic AI insights and pixel-perfect PDF resumes:
+Here is how the data flows through Jobnosis to deliver deterministic AI insights and pixel-perfect PDF resumes:
 
 ```mermaid
 graph TD
@@ -58,7 +58,7 @@ graph TD
 ## ⚡ Technical Highlights & Engineering Decisions
 
 ### 1. Eliminating AI Hallucinations via Schema-Enforced Generation
-Large Language Models are inherently non-deterministic. To prevent malformed text output from breaking frontend parsers, HireFrnd implements **Zod schemas** passed directly to the Gemini API via the `@google/genai` SDK config. This forces the model to respond strictly in a structured JSON format matching our data models (`resumeResponseSchema` and `interviewReportSchema`), guaranteeing 100% database schema compatibility.
+Large Language Models are inherently non-deterministic. To prevent malformed text output from breaking frontend parsers, Jobnosis implements **Zod schemas** passed directly to the Gemini API via the `@google/genai` SDK config. This forces the model to respond strictly in a structured JSON format matching our data models (`resumeResponseSchema` and `interviewReportSchema`), guaranteeing 100% database schema compatibility.
 
 ### 2. Standardized Server-Side PDF Rendering
 Traditional client-side HTML-to-PDF tools are prone to rendering mismatches caused by different operating systems, client browser configurations, and missing local fonts. We solved this by offloading the rendering engine to **Puppeteer** on the backend. This guarantees that all resumes render in a uniform, controlled sandbox, utilizing standard fonts, precise page heights, and producing print-ready, single-page A4 PDFs.
@@ -71,7 +71,7 @@ To defend against Cross-Site Scripting (XSS) attacks, user session tokens are ke
 ## 📂 Project Structure
 
 ```text
-hirefrnd/
+jobnosis/
 ├── backend/
 │   ├── src/
 │   │   ├── config/          # Database & configuration loaders
@@ -106,8 +106,8 @@ hirefrnd/
 
 1. **Clone the Repository:**
    ```bash
-   git clone https://github.com/aashaykk/hirefrnd-proj.git
-   cd hirefrnd-proj
+   git clone https://github.com/aashaykk/jobnosis-proj.git
+   cd jobnosis-proj
    ```
 
 2. **Configure Environment Variables:**

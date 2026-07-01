@@ -1,3 +1,4 @@
+const path = require("path")
 const pdfParse = require("pdf-parse")
 const generateInterviewReport = require("../services/ai.service.js")
 const interviewReportModel = require("../models/interviewReport.model.js")
@@ -7,7 +8,10 @@ async function generateInterviewReportController(req, res) {
         return res.status(400).json({ message: "Resume file is required" })
     }
 
-    const resumeContent = await (new pdfParse.PDFParse(Uint8Array.from(req.file.buffer))).getText()
+    const resumeContent = await (new pdfParse.PDFParse({
+        data: Uint8Array.from(req.file.buffer),
+        standardFontDataUrl: path.join(__dirname, "../../node_modules/pdfjs-dist/standard_fonts/")
+    })).getText()
     const { selfDescription, jobDescription } = req.body
 
     const interviewReportByAi = await generateInterviewReport({

@@ -1,3 +1,4 @@
+const path = require("path")
 const pdfParse = require("pdf-parse")
 const Resume = require("../models/resume.model.js")
 const {
@@ -23,7 +24,10 @@ async function generateResumeController(req, res) {
         // Extract text from uploaded PDF using the workspace's specific PDFParse
         let resumeText = ""
         try {
-            const parsedPdf = await (new pdfParse.PDFParse(Uint8Array.from(req.file.buffer))).getText()
+            const parsedPdf = await (new pdfParse.PDFParse({
+                data: Uint8Array.from(req.file.buffer),
+                standardFontDataUrl: path.join(__dirname, "../../node_modules/pdfjs-dist/standard_fonts/")
+            })).getText()
             resumeText = parsedPdf.text || parsedPdf
         } catch (parseErr) {
             console.error("PDF Parsing error:", parseErr)

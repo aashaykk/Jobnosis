@@ -1,4 +1,4 @@
-# HireFrnd 🚀
+# Jobnosis 🚀
 ### *The Intelligent AI-Powered Resume Optimizer & Interview Preparation Engine*
 
 **HireFrnd** is a full-stack, enterprise-ready career intelligence suite designed to bridge the gap between candidates and recruiters. Built with a modern architecture leveraging **React 19**, **Node.js/Express**, and **MongoDB**, it integrates the **Gemini 2.5 Flash API** to dynamically analyze, tailor, and compile professional resumes while generating comprehensive, customized interview prep guides.
